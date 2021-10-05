@@ -9,7 +9,7 @@ import {
   ModalBody,
 } from 'reactstrap';
 
-export function SignupModal(props: any) {
+export function SignupModal(props: any, setAuth: any = {}) {
   const [isSignupOpen, setIsSignupOpen] = useState(false);
   const [inputs, setInputs] = useState({
     email: '',
@@ -40,7 +40,10 @@ export function SignupModal(props: any) {
       });
 
       const parseRes = await response.json();
-      console.log(parseRes);
+      //   console.log(parseRes);
+      localStorage.setItem('token', parseRes);
+
+      setAuth(true);
     } catch (error) {
       let errorMessage = 'Server error';
       if (error instanceof Error) {
