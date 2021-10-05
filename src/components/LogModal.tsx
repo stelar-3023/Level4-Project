@@ -1,7 +1,13 @@
-import React, { useSate } from "react";
-import { Button, Input, Modal, ModalBody, Table } from "reactstrap";
+import { Fragment, useState } from 'react';
+import { Button, Input, Modal, ModalBody, Table } from 'reactstrap';
 
-export default function LogModal(props) {
-    const [workouts, setWorkouts] = useState([]);
-    
+export function LogModal(props: any) {
+  const [isLogOpen, setIsLogOpen] = useState(false);
+  const [workouts, setWorkouts] = useState([]);
+
+  const toggleLog = () => {
+    setIsLogOpen(!isLogOpen);
+  };
+
+  
 }

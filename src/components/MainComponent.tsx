@@ -14,39 +14,39 @@ export function Main() {
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  const setAuth = (boolean: any) => {
+    setIsAuthenticated(boolean);
+  };
+
   return (
     <Router>
-      <Switch>
-        <Route
-          exact
-          path='/'
-          render={(props) =>
-            !isAuthenticated ? <Login /> : <Redirect to='/home' />
-          }
-        />
-        <Route
-          exact
-          path='/home'
-          render={(props) =>
-            isAuthenticated ? <Home {...props} /> : <Redirect to='/' />
-          }
-        />
-      </Switch>
-      {/* {user ? <Home user={setUser} /> : <Login />} */}
-      <img
-        src={exercise}
-        alt='exercise'
-        className='exercise-img'
-        style={{
-          backgroundAttachment: 'fixed',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
-          height: 'auto',
-          maxWidth: '100%',
-          opacity: '0.4',
-        }}
-      />
+      <div className='container'>
+        <Switch>
+          <Route
+            exact
+            path='/'
+            render={(props) =>
+              !isAuthenticated ? (
+                <Login {...setAuth} />
+              ) : (
+                <Redirect to='/home' />
+              )
+            }
+          />
+          <Route
+            exact
+            path='/home'
+            render={(props) =>
+              isAuthenticated ? (
+                <Home {...setAuth} {...props} />
+              ) : (
+                <Redirect to='/' />
+              )
+            }
+          />
+        </Switch>
+      </div>
+      <img src={exercise} alt='exercise' className='exercise-img' />
     </Router>
   );
 }

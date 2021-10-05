@@ -6,7 +6,7 @@ const cors = require('cors');
 // middleware
 app.use(cors());
 app.use(express.json()); // req.body
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 
 // registration
 app.use('/', require('./routes/registration'));
@@ -14,7 +14,6 @@ app.use('/', require('./routes/registration'));
 // login and verify
 app.use('/', require('./routes/login'));
 
-
 app.listen(5000, () => {
-    console.log('Server is running on port 5000');
+  console.log('Server is running on port 5000');
 });
