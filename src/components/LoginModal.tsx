@@ -9,10 +9,46 @@ import {
   ModalBody,
 } from 'reactstrap';
 
-export function LoginModal(props: any) {
+export function LoginModal(props: any, { setAuth }: any) {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [inputs, setInputs] = useState({
+    email: '',
+    password: '',
+  });
+
+  const { email, password } = inputs;
+
+  const handleChange = (e: any) => {
+    setInputs({ ...inputs, [e.target.name]: e.target.value });
+  };
+
+  const onSubmitForm = async (e: any) => {
+    e.preventDefault();
+    try {
+      const body = { email, password };
+
+      const response = await fetch('http://localhost:5000/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+
+      const parseRes = await response.json();
+      // console.log(parseRes);
+      localStorage.setItem('token', parseRes.token);
+      setAuth(true);
+    } catch (error) {
+      let errorMessage = 'Server error';
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      console.error(errorMessage);
+    }
+    // eslint-disable-next-line no-lone-blocks
+    {
+      toggleLogin();
+    }
+  };
 
   const toggleLogin = () => {
     setIsLoginOpen(!isLoginOpen);
@@ -31,12 +67,12 @@ export function LoginModal(props: any) {
         <ModalBody className='modal-content'>
           <h4>Login</h4>
           <br />
-          <Form id='login-form'>
+          <Form onSubmit={onSubmitForm} id='login-form'>
             <FormGroup className='input-field'>
               <Label for='login-email'>Email Address</Label>
               <Input
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => handleChange(e)}
                 type='email'
                 name='email'
                 data-testId='email-input'
@@ -50,7 +86,7 @@ export function LoginModal(props: any) {
               <Label for='login-password'>Your Password</Label>
               <Input
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => handleChange(e)}
                 type='password'
                 name='password'
                 autoComplete='off'

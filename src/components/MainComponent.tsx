@@ -9,9 +9,9 @@ import { Home } from './HomeComponent';
 import { Login } from './LoginComponent';
 import exercise from '../img/exercise.jpg';
 
-export function Main() {
-  const [user, setUser] = useState(null);
-
+export function Main(
+  
+) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const setAuth = (boolean: any) => {
@@ -27,7 +27,7 @@ export function Main() {
             path='/'
             render={(props) =>
               !isAuthenticated ? (
-                <Login {...setAuth} />
+                <Login {...setAuth} {...props} />
               ) : (
                 <Redirect to='/home' />
               )

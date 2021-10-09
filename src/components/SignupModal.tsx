@@ -9,7 +9,7 @@ import {
   ModalBody,
 } from 'reactstrap';
 
-export function SignupModal(props: any, {setAuth}: any) {
+export function SignupModal(props: any, { setAuth } : any) {
   const [isSignupOpen, setIsSignupOpen] = useState(false);
   const [inputs, setInputs] = useState({
     email: '',
@@ -39,11 +39,11 @@ export function SignupModal(props: any, {setAuth}: any) {
         body: JSON.stringify(body),
       });
 
-      const parseRes = await response.text();
+      const parseRes = await response.json();
       // console.log(parseRes);
       localStorage.setItem('token', parseRes);
 
-        setAuth(true);
+      setAuth(true);
     } catch (error) {
       let errorMessage = 'Server error';
       if (error instanceof Error) {
@@ -51,7 +51,10 @@ export function SignupModal(props: any, {setAuth}: any) {
       }
       console.error(errorMessage);
     }
-    {toggleSignup()}
+    // eslint-disable-next-line no-lone-blocks
+    {
+      toggleSignup();
+    }
   };
 
   return (
@@ -89,6 +92,7 @@ export function SignupModal(props: any, {setAuth}: any) {
                 onChange={(e) => handleChange(e)}
                 type='password'
                 name='password'
+                autoComplete="off"
                 id='signup-password'
                 placeholder='password'
                 required
@@ -101,7 +105,7 @@ export function SignupModal(props: any, {setAuth}: any) {
                 onChange={(e) => handleChange(e)}
                 type='text'
                 name='name'
-                autoComplete='on'
+                autoComplete='off'
                 id='signup-username'
                 placeholder='username'
                 required

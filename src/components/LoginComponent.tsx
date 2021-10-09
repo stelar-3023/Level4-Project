@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { LoginModal } from './LoginModal';
 import { SignupModal } from './SignupModal';
 
-export function Login() {
+export function Login(props: any) {
   return (
     <Fragment>
       <Jumbotron fluid>
