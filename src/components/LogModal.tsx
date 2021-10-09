@@ -8,6 +8,4 @@ export function LogModal(props: any) {
   const toggleLog = () => {
     setIsLogOpen(!isLogOpen);
   };
-
-  
 }

@@ -9,9 +9,7 @@ import { Home } from './HomeComponent';
 import { Login } from './LoginComponent';
 import exercise from '../img/exercise.jpg';
 
-export function Main(
-  
-) {
+export function Main() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const setAuth = (boolean: any) => {

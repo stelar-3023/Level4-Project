@@ -9,7 +9,7 @@ import {
   ModalBody,
 } from 'reactstrap';
 
-export function SignupModal(props: any, { setAuth } : any) {
+export function SignupModal(props: any, { setAuth }: any) {
   const [isSignupOpen, setIsSignupOpen] = useState(false);
   const [inputs, setInputs] = useState({
     email: '',
@@ -92,7 +92,7 @@ export function SignupModal(props: any, { setAuth } : any) {
                 onChange={(e) => handleChange(e)}
                 type='password'
                 name='password'
-                autoComplete="off"
+                autoComplete='off'
                 id='signup-password'
                 placeholder='password'
                 required
