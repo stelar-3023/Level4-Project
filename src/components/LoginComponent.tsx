@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { LoginModal } from './LoginModal';
 import { SignupModal } from './SignupModal';
 
-export function Login(props: any) {
+export function Login(props: any, { setAuth }: any) {
   return (
     <Fragment>
       <Jumbotron fluid>
@@ -27,6 +27,7 @@ export function Login(props: any) {
           >
             <NavItem>
               <LoginModal
+                {...setAuth}
                 renderLogin={(toggleLogin: any) => (
                   <NavLink
                     onClick={toggleLogin}
@@ -41,6 +42,7 @@ export function Login(props: any) {
             </NavItem>
             <NavItem>
               <SignupModal
+                {...setAuth}
                 renderSignup={(toggleSignup: any) => (
                   <NavLink
                     onClick={toggleSignup}

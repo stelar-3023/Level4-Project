@@ -8,6 +8,8 @@ import {
   Modal,
   ModalBody,
 } from 'reactstrap';
+import { useHistory } from 'react-router-dom';
+// import { createPortal } from 'react-dom';
 
 export function SignupModal(props: any, { setAuth }: any) {
   const [isSignupOpen, setIsSignupOpen] = useState(false);
@@ -16,6 +18,8 @@ export function SignupModal(props: any, { setAuth }: any) {
     password: '',
     name: '',
   });
+
+  const history = useHistory();
 
   const { email, password, name } = inputs;
 
@@ -26,6 +30,8 @@ export function SignupModal(props: any, { setAuth }: any) {
   const handleChange = (e: any) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
+
+  // const modalRoot = document.getElementById('modal-root') as HTMLElement;
 
   const onSubmitForm = async (e: any) => {
     e.preventDefault();
@@ -42,6 +48,8 @@ export function SignupModal(props: any, { setAuth }: any) {
       const parseRes = await response.json();
       // console.log(parseRes);
       localStorage.setItem('token', parseRes);
+
+      history.push('/home');
 
       setAuth(true);
     } catch (error) {
@@ -119,5 +127,6 @@ export function SignupModal(props: any, { setAuth }: any) {
         </ModalBody>
       </Modal>
     </Fragment>
+    // modalRoot    
   );
 }

@@ -8,6 +8,7 @@ import {
   Modal,
   ModalBody,
 } from 'reactstrap';
+// import { createPortal } from 'react-dom';
 
 export function LoginModal(props: any, { setAuth }: any) {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -21,6 +22,8 @@ export function LoginModal(props: any, { setAuth }: any) {
   const handleChange = (e: any) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
+
+  // const modalRoot = document.getElementById('modal-root') as HTMLElement;
 
   const onSubmitForm = async (e: any) => {
     e.preventDefault();
@@ -54,7 +57,7 @@ export function LoginModal(props: any, { setAuth }: any) {
     setIsLoginOpen(!isLoginOpen);
   };
 
-  return (
+  return(
     <Fragment>
       {props.renderLogin(toggleLogin)}
       <Modal
@@ -103,5 +106,6 @@ export function LoginModal(props: any, { setAuth }: any) {
         </ModalBody>
       </Modal>
     </Fragment>
+    // modalRoot
   );
 }

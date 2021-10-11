@@ -32,7 +32,6 @@ export function Main() {
             }
           />
           <Route
-            exact
             path='/home'
             render={(props) =>
               isAuthenticated ? (
