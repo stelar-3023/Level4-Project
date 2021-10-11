@@ -25,7 +25,7 @@ export function Main() {
             path='/'
             render={(props) =>
               !isAuthenticated ? (
-                <Login {...setAuth} {...props} />
+                <Login setAuth={setAuth} {...props} />
               ) : (
                 <Redirect to='/home' />
               )
@@ -35,7 +35,7 @@ export function Main() {
             path='/home'
             render={(props) =>
               isAuthenticated ? (
-                <Home {...setAuth} {...props} />
+                <Home setAuth={setAuth} {...props} />
               ) : (
                 <Redirect to='/' />
               )

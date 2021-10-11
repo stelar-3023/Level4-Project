@@ -10,7 +10,7 @@ import {
 } from 'reactstrap';
 // import { createPortal } from 'react-dom';
 
-export function LoginModal(props: any, { setAuth }: any) {
+export function LoginModal(props: any) {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [inputs, setInputs] = useState({
     email: '',
@@ -39,7 +39,7 @@ export function LoginModal(props: any, { setAuth }: any) {
       const parseRes = await response.json();
       // console.log(parseRes);
       localStorage.setItem('token', parseRes.token);
-      setAuth(true);
+      props.setAuth(true);
     } catch (error) {
       let errorMessage = 'Server error';
       if (error instanceof Error) {

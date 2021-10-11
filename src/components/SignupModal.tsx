@@ -11,7 +11,7 @@ import {
 import { useHistory } from 'react-router-dom';
 // import { createPortal } from 'react-dom';
 
-export function SignupModal(props: any, { setAuth }: any) {
+export function SignupModal(props: any) {
   const [isSignupOpen, setIsSignupOpen] = useState(false);
   const [inputs, setInputs] = useState({
     email: '',
@@ -51,7 +51,7 @@ export function SignupModal(props: any, { setAuth }: any) {
 
       history.push('/home');
 
-      setAuth(true);
+      props.setAuth(true);
     } catch (error) {
       let errorMessage = 'Server error';
       if (error instanceof Error) {
