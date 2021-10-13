@@ -8,7 +8,6 @@ import {
   Modal,
   ModalBody,
 } from 'reactstrap';
-// import { createPortal } from 'react-dom';
 
 export function LoginModal(props: any) {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -23,8 +22,6 @@ export function LoginModal(props: any) {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
-  // const modalRoot = document.getElementById('modal-root') as HTMLElement;
-
   const onSubmitForm = async (e: any) => {
     e.preventDefault();
     try {
@@ -37,8 +34,11 @@ export function LoginModal(props: any) {
       });
 
       const parseRes = await response.json();
-      // console.log(parseRes);
+      console.log(parseRes);
       localStorage.setItem('token', parseRes.token);
+
+
+
       props.setAuth(true);
     } catch (error) {
       let errorMessage = 'Server error';
@@ -106,6 +106,5 @@ export function LoginModal(props: any) {
         </ModalBody>
       </Modal>
     </Fragment>
-    // modalRoot
   );
 }

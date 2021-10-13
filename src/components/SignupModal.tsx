@@ -9,7 +9,7 @@ import {
   ModalBody,
 } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
-// import { createPortal } from 'react-dom';
+
 
 export function SignupModal(props: any) {
   const [isSignupOpen, setIsSignupOpen] = useState(false);
@@ -30,8 +30,6 @@ export function SignupModal(props: any) {
   const handleChange = (e: any) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
-
-  // const modalRoot = document.getElementById('modal-root') as HTMLElement;
 
   const onSubmitForm = async (e: any) => {
     e.preventDefault();
@@ -126,7 +124,6 @@ export function SignupModal(props: any) {
           </Form>
         </ModalBody>
       </Modal>
-    </Fragment>
-    // modalRoot    
+    </Fragment> 
   );
 }

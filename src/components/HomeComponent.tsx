@@ -1,12 +1,28 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import { Jumbotron, Nav, NavItem, Navbar } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import { AccountModal } from './AccountDetailsModal';
 import { WorkoutModal } from './LogWorkoutModal';
 import { LogModal } from './LogModal';
+import { useHistory } from 'react-router';
 
 export function Home(props: any) {
   // handleLogout goes here
+
+  const history = useHistory();
+
+  const checkAuth = () => {
+    const getToken = localStorage.getItem('token');
+    if (getToken === undefined) {
+      props.setAuth(false);
+    }
+  };
+
+  useEffect(() => {
+    checkAuth();
+    history.push('/');
+  });
+
   return (
     <Fragment>
       <Jumbotron fluid>
