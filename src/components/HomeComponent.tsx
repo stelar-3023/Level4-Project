@@ -1,27 +1,27 @@
-import { Fragment, useEffect } from 'react';
+import { Fragment } from 'react';
 import { Jumbotron, Nav, NavItem, Navbar } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import { AccountModal } from './AccountDetailsModal';
 import { WorkoutModal } from './LogWorkoutModal';
-import { LogModal } from './LogModal';
-import { useHistory } from 'react-router';
+// import { LogModal } from './LogModal';
+import { toast } from 'react-toastify';
 
 export function Home(props: any) {
   // handleLogout goes here
-
-  const history = useHistory();
-
-  const checkAuth = () => {
-    const getToken = localStorage.getItem('token');
-    if (getToken === undefined) {
+  const handleLogout = async (e: any) => {
+    e.preventDefault();
+    try {
+      localStorage.removeItem('token');
       props.setAuth(false);
+      toast.success('Logged out successfully');
+    } catch (error) {
+      let errorMessage = 'Server Error';
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      toast.error(errorMessage);
     }
-  };
-
-  useEffect(() => {
-    checkAuth();
-    history.push('/');
-  });
+  }
 
   return (
     <Fragment>
@@ -71,18 +71,27 @@ export function Home(props: any) {
             {/* <NavItem>
               <LogModal
                 user={props.user}
-                renderLog={(toggleLog: any) => (
+                renderLog={(toggleLog) => (
                   <NavLink
                     onClick={toggleLog}
-                    className="nav-link logged-in"
-                    to="#"
-                    data-target="modal-log"
+                    className='nav-link logged-in'
+                    to='#'
+                    data-target='modal-log'
                   >
                     Log
                   </NavLink>
                 )}
               />
             </NavItem> */}
+            <NavItem>
+              <NavLink
+                onClick={e => handleLogout(e)}
+                className='nav-link logged-in'
+                to='#'
+              >
+                Logout
+              </NavLink>
+            </NavItem>
           </Nav>
         </div>
       </Navbar>

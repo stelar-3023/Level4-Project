@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import {
   Button,
   Form,
@@ -11,11 +11,24 @@ import {
 import { toast } from 'react-toastify';
 
 export function LoginModal(props: any) {
+  const [state, setState] = useState({});
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [inputs, setInputs] = useState({
     email: '',
     password: '',
   });
+
+  // clean the state in the unmount of the component
+  useEffect(() => {
+    resetInputs();
+    return () => {
+      setState({});
+    };
+  }, []);
+
+  const resetInputs = () => {
+    setState({ setInputs });
+  };
 
   const { email, password } = inputs;
 
@@ -39,10 +52,10 @@ export function LoginModal(props: any) {
       if (parseRes.token) {
         localStorage.setItem('token', parseRes.token);
         props.setAuth(true);
-        toast.success('You have successfully logged in!');
+        toast.success('Logged in successfully!');
       } else {
         props.setAuth(false);
-        toast.error(parseRes);
+        toast.error('Invalid credentials!');
       }
     } catch (error) {
       let errorMessage = 'Server error';
