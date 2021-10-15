@@ -8,6 +8,7 @@ import {
   Modal,
   ModalBody,
 } from 'reactstrap';
+import { toast } from 'react-toastify';
 
 export function LoginModal(props: any) {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -34,12 +35,15 @@ export function LoginModal(props: any) {
       });
 
       const parseRes = await response.json();
-      console.log(parseRes);
-      localStorage.setItem('token', parseRes.token);
 
-
-
-      props.setAuth(true);
+      if (parseRes.token) {
+        localStorage.setItem('token', parseRes.token);
+        props.setAuth(true);
+        toast.success('You have successfully logged in!');
+      } else {
+        props.setAuth(false);
+        toast.error(parseRes);
+      }
     } catch (error) {
       let errorMessage = 'Server error';
       if (error instanceof Error) {
@@ -57,7 +61,7 @@ export function LoginModal(props: any) {
     setIsLoginOpen(!isLoginOpen);
   };
 
-  return(
+  return (
     <Fragment>
       {props.renderLogin(toggleLogin)}
       <Modal
@@ -79,7 +83,7 @@ export function LoginModal(props: any) {
                 type='email'
                 name='email'
                 data-testId='email-input'
-                autoComplete='on'
+                autoComplete='off'
                 id='login-email'
                 placeholder='email'
                 required
