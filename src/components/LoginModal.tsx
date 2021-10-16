@@ -52,10 +52,10 @@ export function LoginModal(props: any) {
       if (parseRes.token) {
         localStorage.setItem('token', parseRes.token);
         props.setAuth(true);
-        toast.success('Logged in successfully!');
+        toast.success('Login successful');
       } else {
         props.setAuth(false);
-        toast.error('Invalid credentials!');
+        toast.error(parseRes);
       }
     } catch (error) {
       let errorMessage = 'Server error';

@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import {
   Button,
   Form,
@@ -8,10 +8,10 @@ import {
   Modal,
   ModalBody,
 } from 'reactstrap';
-import { useHistory } from 'react-router-dom';
-
+// import { useHistory } from 'react-router-dom';
 
 export function SignupModal(props: any) {
+  const [state, setState] = useState({});
   const [isSignupOpen, setIsSignupOpen] = useState(false);
   const [inputs, setInputs] = useState({
     email: '',
@@ -19,7 +19,19 @@ export function SignupModal(props: any) {
     name: '',
   });
 
-  const history = useHistory();
+  // clean the state in the unmount of the component
+  useEffect(() => {
+    resetInputs();
+    return () => {
+      setState({});
+    };
+  }, []);
+
+  const resetInputs = () => {
+    setState({ setInputs });
+  };
+
+  // const history = useHistory();
 
   const { email, password, name } = inputs;
 
@@ -44,11 +56,9 @@ export function SignupModal(props: any) {
       });
 
       const parseRes = await response.json();
-      // console.log(parseRes);
+      console.log(parseRes);
       localStorage.setItem('token', parseRes);
-
-      history.push('/home');
-
+      // history.push('/home');
       props.setAuth(true);
     } catch (error) {
       let errorMessage = 'Server error';
@@ -124,6 +134,6 @@ export function SignupModal(props: any) {
           </Form>
         </ModalBody>
       </Modal>
-    </Fragment> 
+    </Fragment>
   );
 }
