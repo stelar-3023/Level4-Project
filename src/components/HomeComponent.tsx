@@ -21,7 +21,7 @@ export function Home(props: any) {
       }
       toast.error(errorMessage);
     }
-  }
+  };
 
   return (
     <Fragment>
@@ -85,7 +85,7 @@ export function Home(props: any) {
             </NavItem> */}
             <NavItem>
               <NavLink
-                onClick={e => handleLogout(e)}
+                onClick={(e) => handleLogout(e)}
                 className='nav-link logged-in'
                 to='#'
               >
