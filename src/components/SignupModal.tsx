@@ -8,7 +8,8 @@ import {
   Modal,
   ModalBody,
 } from 'reactstrap';
-// import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export function SignupModal(props: any) {
   const [state, setState] = useState({});
@@ -31,7 +32,7 @@ export function SignupModal(props: any) {
     setState({ setInputs });
   };
 
-  // const history = useHistory();
+  const history = useHistory();
 
   const { email, password, name } = inputs;
 
@@ -56,10 +57,16 @@ export function SignupModal(props: any) {
       });
 
       const parseRes = await response.json();
-      console.log(parseRes);
-      localStorage.setItem('token', parseRes);
-      // history.push('/home');
-      props.setAuth(true);
+      if (parseRes === 'User already registered') {
+        history.push('/');
+        toast.error(parseRes);
+      } else {
+        console.log(parseRes);
+        localStorage.setItem('token', parseRes);
+        history.push('/home');
+        props.setAuth(true);
+        toast.success('Register successful');
+      }
     } catch (error) {
       let errorMessage = 'Server error';
       if (error instanceof Error) {
