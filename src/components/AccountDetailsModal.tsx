@@ -48,8 +48,8 @@ export function AccountModal(props: any) {
           <h2>Account Details</h2>
           <br />
           <div className='account-details'>
-            <h4>{email}</h4>
-            <h4>{name}</h4>
+            <h4>Email: {email}</h4>
+            <h4>Name: {name}</h4>
           </div>
         </ModalBody>
       </Modal>
