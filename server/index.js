@@ -14,6 +14,9 @@ app.use('/', require('./routes/registration'));
 // login and verify
 app.use('/', require('./routes/login'));
 
+// exercise
+app.use('/', require('./routes/exercise'));
+
 app.listen(5000, () => {
   console.log('Server is running on port 5000');
 });
