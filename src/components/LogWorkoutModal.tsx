@@ -9,7 +9,6 @@ import {
   ModalBody,
 } from 'reactstrap';
 
-
 // import { v4 as uuidv4 } from "uuid";
 
 export function WorkoutModal(props: any) {
@@ -18,6 +17,9 @@ export function WorkoutModal(props: any) {
   const [inputs, setInputs] = useState({
     exercise: '',
     reps: 0,
+    weight: 0,
+    date: new Date(),
+    email: '',
   });
 
   // clean the state in the unmount of the component
@@ -32,6 +34,9 @@ export function WorkoutModal(props: any) {
     setInputs({
       exercise: '',
       reps: 0,
+      weight: 0,
+      date: new Date(),
+      email: '',
     });
   };
 
@@ -43,7 +48,7 @@ export function WorkoutModal(props: any) {
     setIsLogWorkoutOpen(false);
   };
 
-  const { exercise, reps } = inputs;
+  const { exercise, reps, weight, date, email } = inputs;
 
   const handleChange = (e: any) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
@@ -55,6 +60,9 @@ export function WorkoutModal(props: any) {
       const body = {
         exercise,
         reps,
+        weight,
+        date,
+        email,
       };
       const response = await fetch('http://localhost:5000/exercises', {
         method: 'POST',
@@ -125,16 +133,29 @@ export function WorkoutModal(props: any) {
                 placeholder='reps'
                 required
               />
-              <br />
-              <Button
-                // onClick={addExercise}
-                type='submit'
-                color='danger'
-                size='sm'
-              >
-                Add Exercise
-              </Button>
             </FormGroup>
+            <FormGroup className='input-field'>
+              <Label for='repetitions'>Weight</Label>
+              <Input
+                value={weight}
+                onChange={(e) => handleChange(e)}
+                type='number'
+                name='weight'
+                autoComplete='off'
+                id='weight'
+                placeholder='weight'
+                required
+              />
+            </FormGroup>
+            <br />
+            <Button
+              // onClick={addExercise}
+              type='submit'
+              color='danger'
+              size='sm'
+            >
+              Add Exercise
+            </Button>
           </Form>
         </ModalBody>
       </Modal>

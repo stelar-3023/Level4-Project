@@ -5,10 +5,10 @@ const pool = require('../db');
 // add exercise
 router.post('/exercises', async (req, res) => {
   try {
-    const { exercise, reps, weight } = req.body;
+    const { exercise, reps, weight, date, email } = req.body;
     const newExercise = await pool.query(
-      'INSERT INTO exercises (exercise, reps, weight) VALUES ($1, $2, $3) RETURNING *',
-      [exercise, reps, weight]
+      'INSERT INTO exercises (exercise, reps, weight, date_performed, user_email) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+      [exercise, reps, weight, date, email]
     );
 
     res.json(newExercise.rows[0]);
@@ -48,10 +48,10 @@ router.get('/exercises/:id', async (req, res) => {
 router.put('/exercises/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { exercise, reps, weight } = req.body;
+    const { exercise, reps, weight, date, email } = req.body;
     const updateExercise = await pool.query(
-      'UPDATE exercises SET exercise = $1, reps = $2, weight = $3 WHERE exercise_id = $4',
-      [exercise, reps, weight, id]
+      'UPDATE exercises SET exercise = $1, reps = $2, weight = $3, date_performed = $4, user_email= $5 WHERE exercise_id = $6',
+      [exercise, reps, weight, date, email, id]
     );
     res.json('Exercise updated');
   } catch (err) {
