@@ -20,10 +20,10 @@ CREATE TABLE exercises
     exercise varchar(255) NOT NULL,
     reps integer NOT NULL,
     weight integer NULL,
-    created_at timestamp,
-    updated_at timestamp
+    date_performed date NOT NULL,
+    user_email varchar(255) NOT NULL
 );
 
 --insert test exercises
-INSERT INTO exercises (exercise, reps, weight, created_at, updated_at)
-VALUES ('Bench Press', 10, 100, '2020-01-01 00:00:00', '2020-01-01 00:00:00');
+INSERT INTO exercises (exercise, reps, weight, date_performed, user_email)
+VALUES ('Bench Press', 10, 100, '11-9-2021', 'test@gmail.com');
