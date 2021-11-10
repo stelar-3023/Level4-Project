@@ -1,12 +1,14 @@
-import { Fragment } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { Jumbotron, Nav, NavItem, Navbar } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import { AccountModal } from './AccountDetailsModal';
 import { WorkoutModal } from './LogWorkoutModal';
-// import { LogModal } from './LogModal';
+import { LogModal } from './LogModal';
 import { toast } from 'react-toastify';
 
 export function Home(props: any) {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   // handleLogout goes here
   const handleLogout = async (e: any) => {
     e.preventDefault();
@@ -21,7 +23,34 @@ export function Home(props: any) {
       }
       toast.error(errorMessage);
     }
-  }
+  };
+  console.log(props.email);
+
+  const accountDetails = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/profile/', {
+        method: 'POST',
+        headers: { jwt_token: localStorage.token },
+      });
+      // console.log(response)
+      const parseRes = await response.json();
+      console.log(parseRes);
+      setName(parseRes.user_name); 
+      // console.log(name)
+      setEmail(parseRes.user_email); 
+      // console.log(email)
+    } catch (error) {
+      let errorMessage = 'Server error';
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      console.error(errorMessage);
+    }
+  };
+
+  useEffect(() => {
+    accountDetails();
+  });
 
   return (
     <Fragment>
@@ -40,7 +69,8 @@ export function Home(props: any) {
           <Nav navbar style={{ marginRight: 'auto' }}>
             <NavItem>
               <AccountModal
-                user={props.user}
+                name={name}
+                email={email}
                 renderAccount={(toggleAccount: any) => (
                   <NavLink
                     onClick={toggleAccount}
@@ -55,7 +85,7 @@ export function Home(props: any) {
             </NavItem>
             <NavItem>
               <WorkoutModal
-                user={props.user}
+                email={email}
                 renderWorkout={(toggleWorkout: any) => (
                   <NavLink
                     onClick={toggleWorkout}
@@ -68,10 +98,10 @@ export function Home(props: any) {
                 )}
               />
             </NavItem>
-            {/* <NavItem>
+            <NavItem>
               <LogModal
-                user={props.user}
-                renderLog={(toggleLog) => (
+                email={email}
+                renderLog={(toggleLog: any) => (
                   <NavLink
                     onClick={toggleLog}
                     className='nav-link logged-in'
@@ -82,10 +112,10 @@ export function Home(props: any) {
                   </NavLink>
                 )}
               />
-            </NavItem> */}
+            </NavItem>
             <NavItem>
               <NavLink
-                onClick={e => handleLogout(e)}
+                onClick={(e) => handleLogout(e)}
                 className='nav-link logged-in'
                 to='#'
               >
