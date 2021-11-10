@@ -3,11 +3,12 @@ const router = express.Router();
 const pool = require('../db');
 
 // add exercise
-router.post('/exercises', async (req, res) => {
+router.post('/exercises/:email', async (req, res) => {
   try {
-    const { exercise, reps, weight, date, email } = req.body;
+    const { exercise, reps, weight, date } = req.body;
+    const email = req.params.email;
     const newExercise = await pool.query(
-      'INSERT INTO exercises (exercise, reps, weight, date_performed, user_email) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+      `INSERT INTO exercises (exercise, reps, weight, date_performed, user_email) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
       [exercise, reps, weight, date, email]
     );
 
@@ -19,9 +20,10 @@ router.post('/exercises', async (req, res) => {
 });
 
 // get all exercises
-router.get('/exercises', async (req, res) => {
+router.get('/exercises/:email', async (req, res) => {
   try {
-    const exercises = await pool.query('SELECT * FROM exercises');
+    const email = req.params.email;
+    const exercises = await pool.query(`SELECT * FROM exercises where user_email='${email}'`);
     res.json(exercises.rows);
   } catch (err) {
     console.error(err.message);
