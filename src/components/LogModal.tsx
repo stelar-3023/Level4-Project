@@ -30,6 +30,7 @@ export function LogModal(props: any) {
       setExercises(
         exercises.filter((exercise: any) => exercise.exercise.id !== id)
       );
+      getExercises();
     } catch (error) {
       let errorMessage = 'Sever error';
       if (error instanceof Error) {
@@ -41,8 +42,10 @@ export function LogModal(props: any) {
 
   const getExercises = async () => {
     try {
-      const response = await fetch('http://localhost:5000/exercises');
+      console.log("log", props.email);
+      const response = await fetch(`http://localhost:5000/exercises/${props.email}`);
       const parseRes = await response.json();
+
 
       // console.log(parseRes);
       setExercises(parseRes);
@@ -57,7 +60,7 @@ export function LogModal(props: any) {
 
   useEffect(() => {
     getExercises();
-  }, []);
+  },[props.email]);
   console.log(exercises);
 
   const renderTable = () => {
@@ -67,6 +70,7 @@ export function LogModal(props: any) {
           <tr>
             <th>Exercises</th>
             <th>Reps</th>
+            <th>Weight</th>
           </tr>
         </thead>
         <tbody>
@@ -74,6 +78,7 @@ export function LogModal(props: any) {
             <tr key={exercise.exercise_id}>
               <td>{exercise.exercise}</td>
               <td>{exercise.reps}</td>
+              <td>{exercise.weight}</td>
               <td>
                 <Button type='submit' size='sm' className='log-button'>
                   Modify
