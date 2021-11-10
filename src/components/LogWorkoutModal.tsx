@@ -19,7 +19,6 @@ export function WorkoutModal(props: any) {
     reps: 0,
     weight: 0,
     date: new Date(),
-    email: '',
   });
 
   // clean the state in the unmount of the component
@@ -36,7 +35,6 @@ export function WorkoutModal(props: any) {
       reps: 0,
       weight: 0,
       date: new Date(),
-      email: '',
     });
   };
 
@@ -48,7 +46,7 @@ export function WorkoutModal(props: any) {
     setIsLogWorkoutOpen(false);
   };
 
-  const { exercise, reps, weight, date, email } = inputs;
+  const { exercise, reps, weight, date } = inputs;
 
   const handleChange = (e: any) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
@@ -62,9 +60,8 @@ export function WorkoutModal(props: any) {
         reps,
         weight,
         date,
-        email,
       };
-      const response = await fetch('http://localhost:5000/exercises', {
+      const response = await fetch(`http://localhost:5000/exercises/${props.email}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
