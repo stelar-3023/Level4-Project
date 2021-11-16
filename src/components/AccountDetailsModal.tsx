@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect } from 'react';
+import { Fragment, useState } from 'react';
 import { Modal, ModalBody } from 'reactstrap';
 
 export function AccountModal(props: any) {

@@ -6,6 +6,7 @@ import { WorkoutModal } from './LogWorkoutModal';
 import { LogModal } from './LogModal';
 import { toast } from 'react-toastify';
 
+
 export function Home(props: any) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -24,7 +25,7 @@ export function Home(props: any) {
       toast.error(errorMessage);
     }
   };
-  console.log(props.email);
+  console.log(email);
 
   const accountDetails = async () => {
     try {

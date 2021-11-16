@@ -12,9 +12,11 @@ import exercise from '../img/exercise.jpg';
 export function Main() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+
   const setAuth = (boolean: any) => {
     setIsAuthenticated(boolean);
   };
+
 
   return (
     <Router>
@@ -23,7 +25,7 @@ export function Main() {
           <Route
             exact
             path='/'
-            render={(props) =>
+            render={(props: any) =>
               !isAuthenticated ? (
                 <Login setAuth={setAuth} {...props} />
               ) : (
@@ -33,7 +35,7 @@ export function Main() {
           />
           <Route
             path='/home'
-            render={(props) =>
+            render={(props: any) =>
               isAuthenticated ? (
                 <Home setAuth={setAuth} {...props} />
               ) : (

@@ -7,10 +7,9 @@ const jwtGenerator = require('../utils/jwtGenerator');
 
 // register route
 router.post('/register', validInfo, async (req, res) => {
+  // 1. destructure the req.body (name, email, password)
+  const { email, name, password } = req.body;
   try {
-    // 1. destructure the req.body (name, email, password)
-    const { email, name, password } = req.body;
-
     // 2. check if the email is used or not
     const user = await pool.query('SELECT * FROM users WHERE user_email = $1', [
       email,
@@ -32,7 +31,7 @@ router.post('/register', validInfo, async (req, res) => {
     // 5. generating our jwt token
     const token = jwtGenerator(newUser.rows[0].user_id);
 
-    res.json(token);
+    return res.json(token);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
