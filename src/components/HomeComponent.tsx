@@ -5,9 +5,14 @@ import { AccountModal } from './AccountDetailsModal';
 import { WorkoutModal } from './LogWorkoutModal';
 import { LogModal } from './LogModal';
 import { toast } from 'react-toastify';
-
+import { useSelector, useDispatch } from 'react-redux';
+import { accountDetails } from '../redux/exercise';
 
 export function Home(props: any) {
+  const dispatch = useDispatch();
+  const user = useSelector((state: any) => state.user);
+  const exercises = useSelector((state: any) => state.exercises);
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   // handleLogout goes here
@@ -25,33 +30,37 @@ export function Home(props: any) {
       toast.error(errorMessage);
     }
   };
-  console.log(email);
+  console.log(user);
 
-  const accountDetails = async () => {
-    try {
-      const response = await fetch('http://localhost:5000/profile/', {
-        method: 'POST',
-        headers: { jwt_token: localStorage.token },
-      });
-      // console.log(response)
-      const parseRes = await response.json();
-      console.log(parseRes);
-      setName(parseRes.user_name); 
-      // console.log(name)
-      setEmail(parseRes.user_email); 
-      // console.log(email)
-    } catch (error) {
-      let errorMessage = 'Server error';
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-      console.error(errorMessage);
-    }
-  };
+  // const accountDetails = async () => {
+  //   try {
+  //     const response = await fetch('http://localhost:5000/profile/', {
+  //       method: 'POST',
+  //       headers: { jwt_token: localStorage.token },
+  //     });
+  //     // console.log(response)
+  //     const parseRes = await response.json();
+  //     console.log(parseRes);
+  //     setName(parseRes.user_name);
+  //     // console.log(name)
+  //     setEmail(parseRes.user_email);
+  //     // console.log(email)
+  //   } catch (error) {
+  //     let errorMessage = 'Server error';
+  //     if (error instanceof Error) {
+  //       errorMessage = error.message;
+  //     }
+  //     console.error(errorMessage);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   accountDetails();
+  // });
 
   useEffect(() => {
-    accountDetails();
-  });
+    dispatch(accountDetails());
+  }, [dispatch]);
 
   return (
     <Fragment>
@@ -70,8 +79,8 @@ export function Home(props: any) {
           <Nav navbar style={{ marginRight: 'auto' }}>
             <NavItem>
               <AccountModal
-                name={name}
-                email={email}
+                name={user.name}
+                email={user.email}
                 renderAccount={(toggleAccount: any) => (
                   <NavLink
                     onClick={toggleAccount}
