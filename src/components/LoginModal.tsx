@@ -48,6 +48,7 @@ export function LoginModal(props: any) {
       });
 
       const parseRes = await response.json();
+      // console.log(parseRes);
 
       if (parseRes.token) {
         localStorage.setItem('token', parseRes.token);

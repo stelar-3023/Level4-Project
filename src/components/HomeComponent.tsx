@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect } from 'react';
+import { Fragment, useEffect } from 'react';
 import { Jumbotron, Nav, NavItem, Navbar } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import { AccountModal } from './AccountDetailsModal';
@@ -6,15 +6,14 @@ import { WorkoutModal } from './LogWorkoutModal';
 import { LogModal } from './LogModal';
 import { toast } from 'react-toastify';
 import { useSelector, useDispatch } from 'react-redux';
-import { accountDetails } from '../redux/exercise';
+import { accountDetails } from '../redux/userSlice';
+import { getExercises } from '../redux/exerciseSlice';
+import store from '../redux/store';
 
 export function Home(props: any) {
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user);
-  const exercises = useSelector((state: any) => state.exercises);
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
   // handleLogout goes here
   const handleLogout = async (e: any) => {
     e.preventDefault();
@@ -30,37 +29,13 @@ export function Home(props: any) {
       toast.error(errorMessage);
     }
   };
-  console.log(user);
-
-  // const accountDetails = async () => {
-  //   try {
-  //     const response = await fetch('http://localhost:5000/profile/', {
-  //       method: 'POST',
-  //       headers: { jwt_token: localStorage.token },
-  //     });
-  //     // console.log(response)
-  //     const parseRes = await response.json();
-  //     console.log(parseRes);
-  //     setName(parseRes.user_name);
-  //     // console.log(name)
-  //     setEmail(parseRes.user_email);
-  //     // console.log(email)
-  //   } catch (error) {
-  //     let errorMessage = 'Server error';
-  //     if (error instanceof Error) {
-  //       errorMessage = error.message;
-  //     }
-  //     console.error(errorMessage);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   accountDetails();
-  // });
 
   useEffect(() => {
     dispatch(accountDetails());
+    dispatch(getExercises());
   }, [dispatch]);
+
+  console.log('state: ', store.getState());
 
   return (
     <Fragment>
@@ -79,7 +54,7 @@ export function Home(props: any) {
           <Nav navbar style={{ marginRight: 'auto' }}>
             <NavItem>
               <AccountModal
-                name={user.name}
+                name={user.user_name}
                 email={user.email}
                 renderAccount={(toggleAccount: any) => (
                   <NavLink
@@ -95,7 +70,7 @@ export function Home(props: any) {
             </NavItem>
             <NavItem>
               <WorkoutModal
-                email={email}
+                // email={email}
                 renderWorkout={(toggleWorkout: any) => (
                   <NavLink
                     onClick={toggleWorkout}
@@ -110,7 +85,7 @@ export function Home(props: any) {
             </NavItem>
             <NavItem>
               <LogModal
-                email={email}
+                // email={email}
                 renderLog={(toggleLog: any) => (
                   <NavLink
                     onClick={toggleLog}

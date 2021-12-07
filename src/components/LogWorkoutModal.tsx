@@ -8,10 +8,12 @@ import {
   Modal,
   ModalBody,
 } from 'reactstrap';
-
+import { useDispatch, useSelector } from 'react-redux';
 // import { v4 as uuidv4 } from "uuid";
 
 export function WorkoutModal(props: any) {
+  const dispatch = useDispatch();
+
   const [state, setState] = useState({});
   const [isLogWorkoutOpen, setIsLogWorkoutOpen] = useState(false);
   const [inputs, setInputs] = useState({
@@ -49,7 +51,8 @@ export function WorkoutModal(props: any) {
   const { exercise, reps, weight, date } = inputs;
 
   const handleChange = (e: any) => {
-    setInputs({ ...inputs, [e.target.name]: e.target.value });
+    // setInputs({ ...inputs, [e.target.name]: e.target.value });
+    dispatch(addExercise({ exercise, reps, weight, date }));
   };
 
   const addExercise = async (e: any) => {

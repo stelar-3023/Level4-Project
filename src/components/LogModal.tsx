@@ -1,10 +1,12 @@
-import { Fragment, useState, useEffect } from 'react';
+import { Fragment, useState } from 'react';
 import { Button, Modal, ModalBody, Table } from 'reactstrap';
+import store from '../redux/store';
 
 export function LogModal(props: any) {
   const [isLogOpen, setIsLogOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
-  const [exercises, setExercises] = useState([]);
+  // const [exercises, setExercises] = useState([]);
+
 
   const toggleLog = () => {
     setIsLogOpen(!isLogOpen);
@@ -15,53 +17,53 @@ export function LogModal(props: any) {
     setIsUpdating(false);
   };
 
-  const deleteExercise = async (id: any) => {
-    try {
-      const deleteExercise = await fetch(
-        `http://localhost:5000/exercises/${id}`,
-        {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-      console.log(deleteExercise);
-      setExercises(
-        exercises.filter((exercise: any) => exercise.exercise.id !== id)
-      );
-      getExercises();
-    } catch (error) {
-      let errorMessage = 'Sever error';
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-      console.log(errorMessage);
-    }
-  };
+  // const deleteExercise = async (id: any) => {
+  //   try {
+  //     const deleteExercise = await fetch(
+  //       `http://localhost:5000/exercises/${id}`,
+  //       {
+  //         method: 'DELETE',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //       }
+  //     );
+  //     console.log(deleteExercise);
+  //     setExercises(
+  //       exercises.filter((exercise: any) => exercise.exercise.id !== id)
+  //     );
+  //     getExercises();
+  //   } catch (error) {
+  //     let errorMessage = 'Sever error';
+  //     if (error instanceof Error) {
+  //       errorMessage = error.message;
+  //     }
+  //     console.log(errorMessage);
+  //   }
+  // };
 
-  const getExercises = async () => {
-    try {
-      console.log("log", props.email);
-      const response = await fetch(`http://localhost:5000/exercises/${props.email}`);
-      const parseRes = await response.json();
+  // const getExercises = async () => {
+  //   try {
+  //     console.log("log", props.email);
+  //     const response = await fetch(`http://localhost:5000/exercises/${email}`);
+  //     const parseRes = await response.json();
 
 
-      // console.log(parseRes);
-      setExercises(parseRes);
-    } catch (error) {
-      let errorMessage = 'Server error';
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-      console.log(errorMessage);
-    }
-  };
+  //     console.log(parseRes);
+  //     // setExercises(parseRes);
+  //   } catch (error) {
+  //     let errorMessage = 'Server error';
+  //     if (error instanceof Error) {
+  //       errorMessage = error.message;
+  //     }
+  //     console.log(errorMessage);
+  //   }
+  // };
 
-  useEffect(() => {
-    getExercises();
-  },[props.email]);
-  console.log(exercises);
+  // useEffect(() => {
+  //   getExercises();
+  // },[getExercises()]);
+  // console.log(exercises);
 
   const renderTable = () => {
     return (
@@ -74,7 +76,7 @@ export function LogModal(props: any) {
           </tr>
         </thead>
         <tbody>
-          {exercises.map((exercise: any) => (
+          {/* {exercises.map((exercise: any) => (
             <tr key={exercise.exercise_id}>
               <td>{exercise.exercise}</td>
               <td>{exercise.reps}</td>
@@ -86,7 +88,7 @@ export function LogModal(props: any) {
               </td>
               <td>
                 <Button
-                  onClick={() => deleteExercise(exercise.exercise_id)}
+                  // onClick={() => deleteExercise(exercise.exercise_id)}
                   type='submit'
                   size='sm'
                   className='log-button'
@@ -95,7 +97,7 @@ export function LogModal(props: any) {
                 </Button>
               </td>
             </tr>
-          ))}
+          ))} */}
         </tbody>
       </Table>
     );
