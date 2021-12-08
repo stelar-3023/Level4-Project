@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import store from './store';
+
 
 export const getExercises: any = createAsyncThunk(
   'exercises/getExercises',
-  async (email, getState) => {
+  async (email) => {
     const response = await fetch(`http://localhost:5000/exercises/${email}`, {
       method: 'GET',
       headers: {
@@ -11,9 +11,9 @@ export const getExercises: any = createAsyncThunk(
       },
     });
     if (response.ok) {
-      console.log(response);
+      // console.log(response);
       const exercises = await response.json();
-      console.log(exercises);
+      // console.log(exercises);
       return { exercises };
     } else {
       const error: any = new Error(
