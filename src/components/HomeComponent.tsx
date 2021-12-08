@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect, useCallback } from 'react';
 import { Jumbotron, Nav, NavItem, Navbar } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import { AccountModal } from './AccountDetailsModal';
@@ -30,10 +30,14 @@ export function Home(props: any) {
     }
   };
 
-  useEffect(() => {
+  const initFetch = useCallback(() => {
     dispatch(accountDetails());
-    dispatch(getExercises());
-  }, [dispatch]);
+    dispatch(getExercises(user.user.user_email));
+  }, [dispatch, user.user.user_email]);
+
+  useEffect(() => {
+    initFetch();
+  }, [initFetch]);
 
   console.log('state: ', store.getState());
 
