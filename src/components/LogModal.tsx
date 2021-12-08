@@ -1,12 +1,12 @@
 import { Fragment, useState } from 'react';
 import { Button, Modal, ModalBody, Table } from 'reactstrap';
-import store from '../redux/store';
+import { useSelector } from 'react-redux';
 
 export function LogModal(props: any) {
+  const exercises = useSelector((state: any) => state.exercises);
   const [isLogOpen, setIsLogOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   // const [exercises, setExercises] = useState([]);
-
 
   const toggleLog = () => {
     setIsLogOpen(!isLogOpen);
@@ -48,7 +48,6 @@ export function LogModal(props: any) {
   //     const response = await fetch(`http://localhost:5000/exercises/${email}`);
   //     const parseRes = await response.json();
 
-
   //     console.log(parseRes);
   //     // setExercises(parseRes);
   //   } catch (error) {
@@ -76,7 +75,7 @@ export function LogModal(props: any) {
           </tr>
         </thead>
         <tbody>
-          {/* {exercises.map((exercise: any) => (
+          {exercises.exercises.map((exercise: any) => (
             <tr key={exercise.exercise_id}>
               <td>{exercise.exercise}</td>
               <td>{exercise.reps}</td>
@@ -97,7 +96,7 @@ export function LogModal(props: any) {
                 </Button>
               </td>
             </tr>
-          ))} */}
+          ))}
         </tbody>
       </Table>
     );
