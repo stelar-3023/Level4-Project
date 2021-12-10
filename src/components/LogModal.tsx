@@ -1,8 +1,11 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { Button, Modal, ModalBody, Table } from 'reactstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteExercise } from '../redux/exerciseSlice';
+import store from '../redux/store';
 
 export function LogModal(props: any) {
+  const dispatch = useDispatch();
   const exercises = useSelector((state: any) => state.exercises);
   const [isLogOpen, setIsLogOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -16,6 +19,15 @@ export function LogModal(props: any) {
     setIsLogOpen(false);
     setIsUpdating(false);
   };
+
+  const removeExercises = (e: any) => {
+    const exercisePosition = e.target.id;
+    // console.log(exercises.exercises[0].exercise_id);
+    dispatch(deleteExercise(exercises.exercises[exercisePosition].exercise_id));
+    console.log('deleting..')
+  };
+
+  // console.log('state: ', store.getState());
 
   // const deleteExercise = async (id: any) => {
   //   try {
@@ -42,27 +54,8 @@ export function LogModal(props: any) {
   //   }
   // };
 
-  // const getExercises = async () => {
-  //   try {
-  //     console.log("log", props.email);
-  //     const response = await fetch(`http://localhost:5000/exercises/${email}`);
-  //     const parseRes = await response.json();
-
-  //     console.log(parseRes);
-  //     // setExercises(parseRes);
-  //   } catch (error) {
-  //     let errorMessage = 'Server error';
-  //     if (error instanceof Error) {
-  //       errorMessage = error.message;
-  //     }
-  //     console.log(errorMessage);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getExercises();
-  // },[getExercises()]);
-  // console.log(exercises);
+  console.log(exercises);
+  console.log(exercises.exercises);
 
   const renderTable = () => {
     return (
@@ -75,7 +68,7 @@ export function LogModal(props: any) {
           </tr>
         </thead>
         <tbody>
-          {exercises.exercises.map((exercise: any) => (
+          {exercises.exercises.map((exercise: any, index: any) => (
             <tr key={exercise.exercise_id}>
               <td>{exercise.exercise}</td>
               <td>{exercise.reps}</td>
@@ -87,7 +80,8 @@ export function LogModal(props: any) {
               </td>
               <td>
                 <Button
-                  // onClick={() => deleteExercise(exercise.exercise_id)}
+                  id={index}
+                  onClick={e=>removeExercises(e)}
                   type='submit'
                   size='sm'
                   className='log-button'

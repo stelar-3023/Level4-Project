@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-
 export const getExercises: any = createAsyncThunk(
   'exercises/getExercises',
   async (email) => {
@@ -25,10 +24,33 @@ export const getExercises: any = createAsyncThunk(
   }
 );
 
+export const deleteExercise: any = createAsyncThunk(
+  'exercises/deleteExercise',
+  async (id) => {
+    const response = await fetch(`http://localhost:5000/exercises/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (response.ok) {
+      const exercise = await response.json();
+      console.log(exercise);
+      return { exercise };
+    } else {
+      const error: any = new Error(
+        `Error ${response.status}: ${response.statusText}`
+      );
+      error.response = response;
+      throw error;
+    }
+  }
+);
+
 const exerciseSlice = createSlice({
   name: 'exercises',
   initialState: {
-    exercises: {},
+    exercises: [],
   },
   reducers: {},
   extraReducers: {
@@ -43,6 +65,12 @@ const exerciseSlice = createSlice({
     [getExercises.rejected]: (state: any, action: any) => {
       console.log('error fetching exercises');
       state.status = 'error fetching exercises';
+    },
+    [deleteExercise.fulfilled]: (state: any, action: any) => {
+    
+      console.log('deleted exercise successfully');
+      let index = state.exercises.findIndex(({ id }: any) => id === action.payload.id);
+      state.exercises.splice(index, 1);
     },
   },
 });
