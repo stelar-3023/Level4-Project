@@ -1,7 +1,7 @@
 import { Fragment, useState, useEffect } from 'react';
-import { Button, Modal, ModalBody, Table } from 'reactstrap';
+import { Button, Input, Modal, ModalBody, Table } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteExercise } from '../redux/exerciseSlice';
+import { deleteExercise, updateExercise } from '../redux/exerciseSlice';
 import store from '../redux/store';
 
 export function LogModal(props: any) {
@@ -24,38 +24,50 @@ export function LogModal(props: any) {
     const exercisePosition = e.target.id;
     // console.log(exercises.exercises[0].exercise_id);
     dispatch(deleteExercise(exercises.exercises[exercisePosition].exercise_id));
-    console.log('deleting..')
+    // console.log('deleting..');
   };
-
-  // console.log('state: ', store.getState());
-
-  // const deleteExercise = async (id: any) => {
-  //   try {
-  //     const deleteExercise = await fetch(
-  //       `http://localhost:5000/exercises/${id}`,
-  //       {
-  //         method: 'DELETE',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //         },
-  //       }
-  //     );
-  //     console.log(deleteExercise);
-  //     setExercises(
-  //       exercises.filter((exercise: any) => exercise.exercise.id !== id)
-  //     );
-  //     getExercises();
-  //   } catch (error) {
-  //     let errorMessage = 'Sever error';
-  //     if (error instanceof Error) {
-  //       errorMessage = error.message;
-  //     }
-  //     console.log(errorMessage);
-  //   }
-  // };
 
   console.log(exercises);
   console.log(exercises.exercises);
+
+  const updateExercises = (e: any) => {
+    const exercisePosition = e.target.id;
+    // console.log(exercises.exercises[exercisePosition].exercise_id);
+    setIsUpdating(true);
+    dispatch(updateExercise(exercises.exercises[exercisePosition].exercise_id));
+    // console.log('updating...');
+  };
+
+  const renderInputs = () => {
+    return (
+      <div>
+        <Input></Input>
+        <br />
+        <Input></Input>
+        <br />
+        <Button
+          onClick={() => {
+            // saveExercise();
+          }}
+          type='submit'
+          size='sm'
+          className='mb-1 log-button save-button'
+        >
+          Save
+        </Button>
+        <Button
+          onClick={() => {
+            cancelModal();
+          }}
+          type='submit'
+          size='sm'
+          className='mb-1 log-button save-button'
+        >
+          Cancel
+        </Button>
+      </div>
+    );
+  };
 
   const renderTable = () => {
     return (
@@ -74,14 +86,20 @@ export function LogModal(props: any) {
               <td>{exercise.reps}</td>
               <td>{exercise.weight}</td>
               <td>
-                <Button type='submit' size='sm' className='log-button'>
+                <Button
+                  id={index}
+                  onClick={(e) => updateExercises(e)}
+                  type='submit'
+                  size='sm'
+                  className='log-button'
+                >
                   Modify
                 </Button>
               </td>
               <td>
                 <Button
                   id={index}
-                  onClick={e=>removeExercises(e)}
+                  onClick={(e) => removeExercises(e)}
                   type='submit'
                   size='sm'
                   className='log-button'
@@ -116,7 +134,7 @@ export function LogModal(props: any) {
             &times;
           </Button>
           <h2>Workout</h2>
-          {renderTable()}
+          {isUpdating ? renderInputs() : renderTable()}
         </ModalBody>
       </Modal>
     </Fragment>
