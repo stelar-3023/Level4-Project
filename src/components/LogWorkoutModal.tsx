@@ -9,36 +9,21 @@ import {
   ModalBody,
 } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { addExercise } from '../redux/exerciseSlice';
 // import { v4 as uuidv4 } from "uuid";
 
 export function WorkoutModal(props: any) {
   const dispatch = useDispatch();
-
-  const [state, setState] = useState({});
+  const exercises = useSelector((state: any) => state.exercises);
+  const user = useSelector((state: any) => state.user);
   const [isLogWorkoutOpen, setIsLogWorkoutOpen] = useState(false);
   const [inputs, setInputs] = useState({
     exercise: '',
     reps: 0,
     weight: 0,
     date: new Date(),
+    email: user.user.user_email,
   });
-
-  // clean the state in the unmount of the component
-  useEffect(() => {
-    resetInputs();
-    return () => {
-      setState({});
-    };
-  }, []);
-
-  const resetInputs = () => {
-    setInputs({
-      exercise: '',
-      reps: 0,
-      weight: 0,
-      date: new Date(),
-    });
-  };
 
   const toggleWorkout = () => {
     setIsLogWorkoutOpen(!isLogWorkoutOpen);
@@ -48,42 +33,26 @@ export function WorkoutModal(props: any) {
     setIsLogWorkoutOpen(false);
   };
 
-  const { exercise, reps, weight, date } = inputs;
+  // const { exercise, reps, weight, date } = inputs;
 
   const handleChange = (e: any) => {
-    // setInputs({ ...inputs, [e.target.name]: e.target.value });
-    dispatch(addExercise({ exercise, reps, weight, date }));
+    setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
-  const addExercise = async (e: any) => {
+  console.log(exercises);
+
+  const handleSubmit = (e: any) => {
     e.preventDefault();
-    try {
-      const body = {
-        exercise,
-        reps,
-        weight,
-        date,
-      };
-      const response = await fetch(`http://localhost:5000/exercises/${props.email}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      });
-      console.log(response);
-    } catch (error) {
-      let errorMessage = 'Server error';
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-      console.log(errorMessage);
-    }
-    // eslint-disable-next-line no-lone-blocks
-    {
-      toggleWorkout();
-      resetInputs();
-    }
+    dispatch(addExercise(inputs));
+    console.log(inputs);
+    setInputs({
+      exercise: '',
+      reps: 0,
+      weight: 0,
+      date: new Date(),
+      email: user.user.user_email,
+    });
+    setIsLogWorkoutOpen(false);
   };
 
   return (
@@ -107,11 +76,11 @@ export function WorkoutModal(props: any) {
           </Button>
           <h2>Add Exercises</h2>
           <br />
-          <Form onSubmit={addExercise} id='exercise-form'>
+          <Form onSubmit={handleSubmit} id='exercise-form'>
             <FormGroup className='input-field'>
               <Label for='exercise'>Exercise</Label>
               <Input
-                value={exercise}
+                value={inputs.exercise}
                 onChange={(e) => handleChange(e)}
                 type='text'
                 name='exercise'
@@ -124,7 +93,7 @@ export function WorkoutModal(props: any) {
             <FormGroup className='input-field'>
               <Label for='repetitions'>Reps</Label>
               <Input
-                value={reps}
+                value={inputs.reps}
                 onChange={(e) => handleChange(e)}
                 type='number'
                 name='reps'
@@ -137,7 +106,7 @@ export function WorkoutModal(props: any) {
             <FormGroup className='input-field'>
               <Label for='repetitions'>Weight</Label>
               <Input
-                value={weight}
+                value={inputs.weight}
                 onChange={(e) => handleChange(e)}
                 type='number'
                 name='weight'
@@ -148,12 +117,7 @@ export function WorkoutModal(props: any) {
               />
             </FormGroup>
             <br />
-            <Button
-              // onClick={addExercise}
-              type='submit'
-              color='danger'
-              size='sm'
-            >
+            <Button type='submit' color='danger' size='sm'>
               Add Exercise
             </Button>
           </Form>
