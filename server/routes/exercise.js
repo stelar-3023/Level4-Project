@@ -5,8 +5,7 @@ const pool = require('../db');
 // add exercise
 router.post('/exercises/:email', async (req, res) => {
   try {
-    const { exercise, reps, weight, date } = req.body;
-    const email = req.params.email;
+    const { exercise, reps, weight, date, email } = req.body;
     const newExercise = await pool.query(
       `INSERT INTO exercises (exercise, reps, weight, date_performed, user_email) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
       [exercise, reps, weight, date, email]
@@ -23,7 +22,9 @@ router.post('/exercises/:email', async (req, res) => {
 router.get('/exercises/:email', async (req, res) => {
   try {
     const email = req.params.email;
-    const exercises = await pool.query(`SELECT * FROM exercises where user_email='${email}'`);
+    const exercises = await pool.query(
+      `SELECT * FROM exercises where user_email='${email}'`
+    );
     res.json(exercises.rows);
   } catch (err) {
     console.error(err.message);
@@ -50,12 +51,22 @@ router.get('/exercises/:id', async (req, res) => {
 router.put('/exercises/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { exercise, reps, weight, date, email } = req.body;
+    const { exercise, reps, weight } = req.body;
+    console.log(req.body);
+
     const updateExercise = await pool.query(
-      'UPDATE exercises SET exercise = $1, reps = $2, weight = $3, date_performed = $4, user_email= $5 WHERE exercise_id = $6',
-      [exercise, reps, weight, date, email, id]
+      'UPDATE exercises SET exercise = $1, reps = $2, weight = $3 WHERE exercise_id = $4',
+      [exercise, reps, weight, id],
+      (err, result) => {
+        if (err) {
+          console.error(err.message);
+          res.status(500).send('Server Error');
+        } else {
+          res.status(200).send(req.body);
+        }
+      }
     );
-    res.json('Exercise updated');
+    // res.json('Exercise updated');
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
