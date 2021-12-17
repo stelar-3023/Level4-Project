@@ -9,7 +9,12 @@ export function LogModal(props: any) {
   const exercises = useSelector((state: any) => state.exercises);
   const [isLogOpen, setIsLogOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
-  // const [exercises, setExercises] = useState([]);
+  const [exercise, setExercise] = useState({
+    exercise_id: '',
+    exercise: '',
+    reps: '',
+    weight: '',
+  });
 
   const toggleLog = () => {
     setIsLogOpen(!isLogOpen);
@@ -27,27 +32,59 @@ export function LogModal(props: any) {
     // console.log('deleting..');
   };
 
-  console.log(exercises);
-  console.log(exercises.exercises);
+  // console.log(exercises);
+  // console.log(exercises.exercises[0].user_email);
 
-  const updateExercises = (e: any) => {
-    const exercisePosition = e.target.id;
+  const updateExercises = () => {
+    // const exercisePosition = e.target.id;
     // console.log(exercises.exercises[exercisePosition].exercise_id);
-    setIsUpdating(true);
-    dispatch(updateExercise(exercises.exercises[exercisePosition].exercise_id));
+    dispatch(updateExercise(exercise));
+    console.log(exercise);
     // console.log('updating...');
+    setIsUpdating(false);
+    setIsLogOpen(!isLogOpen);
+  };
+
+  const getExercise = (e: any) => {
+    setIsUpdating(true);
+    setExercise(exercises.exercises[e.target.id]);
+    console.log(exercise);
+    console.log(e.target.id);
   };
 
   const renderInputs = () => {
     return (
       <div>
-        <Input></Input>
+        <Input
+          type='text'
+          name='exercise'
+          value={exercise.exercise}
+          onChange={(e) => {
+            setExercise({ ...exercise, [e.target.name]: e.target.value });
+          }}
+        ></Input>
         <br />
-        <Input></Input>
+        <Input
+          type='text'
+          name='reps'
+          value={exercise.reps}
+          onChange={(e) => {
+            setExercise({ ...exercise, [e.target.name]: e.target.value });
+          }}
+        ></Input>
+        <br />
+        <Input
+          type='text'
+          name='weight'
+          value={exercise.weight}
+          onChange={(e) => {
+            setExercise({ ...exercise, [e.target.name]: e.target.value });
+          }}
+        ></Input>
         <br />
         <Button
           onClick={() => {
-            // saveExercise();
+            updateExercises();
           }}
           type='submit'
           size='sm'
@@ -88,7 +125,8 @@ export function LogModal(props: any) {
               <td>
                 <Button
                   id={index}
-                  onClick={(e) => updateExercises(e)}
+                  // onClick={(e) => updateExercises(e)}
+                  onClick={(e) => getExercise(e)}
                   type='submit'
                   size='sm'
                   className='log-button'
