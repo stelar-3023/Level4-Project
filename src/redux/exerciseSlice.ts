@@ -1,5 +1,34 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
+export const addExercise: any = createAsyncThunk(
+  'exercise/addExercise',
+  async (exercise: any) => {
+    console.log(exercise);
+    const response = await fetch(
+      `http://localhost:5000/exercises/${exercise.email}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(exercise),
+      }
+    );
+    if (response.ok) {
+      // console.log(exercise);
+      const exercises = await response.json();
+      // console.log(exercises);
+      return { exercises };
+    } else {
+      const error: any = new Error(
+        `Error ${response.status}: ${response.statusText}`
+      );
+      error.response = response;
+      throw error;
+    }
+  }
+);
+
 export const getExercises: any = createAsyncThunk(
   'exercises/getExercises',
   async (email) => {
@@ -35,7 +64,32 @@ export const deleteExercise: any = createAsyncThunk(
     });
     if (response.ok) {
       const exercise = await response.json();
-      console.log(exercise);
+      return { exercise };
+    } else {
+      const error: any = new Error(
+        `Error ${response.status}: ${response.statusText}`
+      );
+      error.response = response;
+      throw error;
+    }
+  }
+);
+
+export const updateExercise: any = createAsyncThunk(
+  'exercises/updateExercise',
+  async (exercise: any) => {
+    const response = await fetch(
+      `http://localhost:5000/exercises/${exercise.exercise_id}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(exercise),
+      }
+    );
+    if (response.ok) {
+      const exercise = await response.json();
       return { exercise };
     } else {
       const error: any = new Error(
@@ -67,10 +121,27 @@ const exerciseSlice = createSlice({
       state.status = 'error fetching exercises';
     },
     [deleteExercise.fulfilled]: (state: any, action: any) => {
-    
       console.log('deleted exercise successfully');
-      let index = state.exercises.findIndex(({ id }: any) => id === action.payload.id);
+      let index = state.exercises.findIndex(
+        ({ id }: any) => id === action.payload.id
+      );
       state.exercises.splice(index, 1);
+    },
+    [updateExercise.fulfilled]: (state: any, action: any) => {
+      // console.log(state, action);
+      const index = state.exercises.findIndex(
+        (exercise: any) =>
+          exercise.exercise_id === action.payload.exercise.exercise_id
+      );
+      state.exercises[index] = {
+        ...state.exercises[index],
+        ...action.payload.exercise,
+      };
+    },
+    [addExercise.fulfilled]: (state: any, action: any) => {
+      console.log(state, action);
+      console.log('added exercise successfully');
+      state.exercises.push(action.payload.exercises);
     },
   },
 });
