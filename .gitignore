@@ -2,6 +2,9 @@
 # .env file is ignored by git to avoid leaking credentials
 .env
 
+# out.sql
+out.sql
+
 # dependencies
 /node_modules
 /.pnp
