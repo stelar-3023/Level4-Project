@@ -96,7 +96,7 @@ export function LoginModal(props: any) {
                 onChange={(e) => handleChange(e)}
                 type='email'
                 name='email'
-                data-testId='email-input'
+                data-testid='email-input'
                 autoComplete='off'
                 id='login-email'
                 placeholder='email'

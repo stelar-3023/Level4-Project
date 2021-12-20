@@ -36,6 +36,7 @@ const userSlice = createSlice({
     [accountDetails.fulfilled]: (state: any, action: any) => {
       console.log('fetched user successfully');
       state.user = action.payload.user;
+      
     },
     [accountDetails.rejected]: (state: any, action: any) => {
       console.log('error fetching user');

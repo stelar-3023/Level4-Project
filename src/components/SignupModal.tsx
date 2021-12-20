@@ -101,7 +101,7 @@ export function SignupModal(props: any) {
                 onChange={(e) => handleChange(e)}
                 type='email'
                 name='email'
-                data-testid='signup-email'
+                data-testid='email-input'
                 autoComplete='on'
                 id='signup-email'
                 placeholder='Enter email'

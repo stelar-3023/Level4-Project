@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect } from 'react';
+import { Fragment, useState, useEffect, useCallback } from 'react';
 import {
   Button,
   Form,
@@ -10,6 +10,8 @@ import {
 } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { addExercise } from '../redux/exerciseSlice';
+import { accountDetails } from '../redux/userSlice';
+import { getExercises } from '../redux/exerciseSlice';
 // import { v4 as uuidv4 } from "uuid";
 
 export function WorkoutModal(props: any) {
@@ -32,6 +34,15 @@ export function WorkoutModal(props: any) {
   const cancelModal = () => {
     setIsLogWorkoutOpen(false);
   };
+
+  const initFetch = useCallback(() => {
+    dispatch(accountDetails());
+    dispatch(getExercises(user.user.user_email));
+  }, [dispatch, user.user.user_email]);
+
+  useEffect(() => {
+    initFetch();
+  }, [initFetch]);
 
   // const { exercise, reps, weight, date } = inputs;
 

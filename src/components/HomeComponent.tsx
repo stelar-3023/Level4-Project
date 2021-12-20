@@ -39,7 +39,8 @@ export function Home(props: any) {
     initFetch();
   }, [initFetch]);
 
-  console.log('state: ', store.getState());
+
+  // console.log('state: ', store.getState());
 
   return (
     <Fragment>
