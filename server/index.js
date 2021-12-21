@@ -4,6 +4,10 @@ const PORT = process.env.PORT || 5000;
 const path = require('path');
 const cors = require('cors');
 
+const corsOptions = {
+  origin: 'https://reverent-johnson-c5ac50.netlify.app/'
+}
+
 // process.env.PORT
 // process.env.NODE_ENV => production or development
 
@@ -21,15 +25,15 @@ if(process.env.NODE_ENV === 'production') {
 }
 
 // registration
-app.use('/', require('./routes/registration'));
+app.use('/', cors(corsOptions), require('./routes/registration'));
 
 // login and verify
-app.use('/', cors(), require('./routes/login'));
+app.use('/', cors(corsOptions), require('./routes/login'));
 
 // exercise
-app.use('/', require('./routes/exercise'));
+app.use('/', cors(corsOptions), require('./routes/exercise'));
 
-app.get("*", (req, res) => {
+app.get("*", cors(corsOptions), (req, res) => {
   res.sendFile(path.join(__dirname, "./client/build/index.html"));
 })
 
