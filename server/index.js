@@ -24,7 +24,7 @@ if(process.env.NODE_ENV === 'production') {
 app.use('/', require('./routes/registration'));
 
 // login and verify
-app.use('/', require('./routes/login'));
+app.use('/', cors(), require('./routes/login'));
 
 // exercise
 app.use('/', require('./routes/exercise'));
