@@ -64,7 +64,7 @@ export function LoginModal(props: any) {
       if (error instanceof Error) {
         errorMessage = error.message;
       }
-      console.error(errorMessage);
+      console.log(errorMessage);
     }
     // eslint-disable-next-line no-lone-blocks
     {
