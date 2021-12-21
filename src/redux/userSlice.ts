@@ -4,7 +4,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 export const accountDetails: any = createAsyncThunk(
   'user/getUserDetails',
   async () => {
-    const response = await fetch('http://localhost:5000/profile/', {
+    const response = await fetch('/profile/', {
       method: 'POST',
       headers: { jwt_token: localStorage.token },
     });
