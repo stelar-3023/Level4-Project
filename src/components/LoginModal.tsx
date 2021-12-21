@@ -42,7 +42,7 @@ export function LoginModal(props: any) {
     try {
       const body = { email, password };
 
-      const response = await fetch('/', {
+      const response = await fetch('/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
