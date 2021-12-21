@@ -8,7 +8,6 @@ import { toast } from 'react-toastify';
 import { useSelector, useDispatch } from 'react-redux';
 import { accountDetails } from '../redux/userSlice';
 import { getExercises } from '../redux/exerciseSlice';
-import store from '../redux/store';
 
 export function Home(props: any) {
   const dispatch = useDispatch();

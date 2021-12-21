@@ -29,6 +29,7 @@ export function LoginModal(props: any) {
   const resetInputs = () => {
     setState({ setInputs });
   };
+  console.log(state);
 
   const { email, password } = inputs;
 

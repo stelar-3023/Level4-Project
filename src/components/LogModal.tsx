@@ -1,8 +1,7 @@
-import { Fragment, useState, useEffect } from 'react';
+import { Fragment, useState } from 'react';
 import { Button, Input, Modal, ModalBody, Table } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteExercise, updateExercise } from '../redux/exerciseSlice';
-import store from '../redux/store';
 
 export function LogModal(props: any) {
   const dispatch = useDispatch();

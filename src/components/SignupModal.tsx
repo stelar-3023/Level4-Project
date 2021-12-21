@@ -31,6 +31,7 @@ export function SignupModal(props: any) {
   const resetInputs = () => {
     setState({ setInputs });
   };
+  console.log(state);
 
   const history = useHistory();
 
