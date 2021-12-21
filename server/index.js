@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 5000;
+const path = require('path');
 const cors = require('cors');
 
 // process.env.PORT
@@ -30,7 +31,7 @@ app.use('/', require('./routes/exercise'));
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "./client/build/index.html"));
-}))
+})
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
