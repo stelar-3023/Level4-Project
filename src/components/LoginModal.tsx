@@ -49,7 +49,7 @@ export function LoginModal(props: any) {
       });
 
       const parseRes = await response.json();
-      // console.log(parseRes);
+      console.log(parseRes);
 
       if (parseRes.token) {
         localStorage.setItem('token', parseRes.token);
@@ -64,7 +64,7 @@ export function LoginModal(props: any) {
       if (error instanceof Error) {
         errorMessage = error.message;
       }
-      console.log(errorMessage);
+      console.error(errorMessage);
     }
     // eslint-disable-next-line no-lone-blocks
     {
